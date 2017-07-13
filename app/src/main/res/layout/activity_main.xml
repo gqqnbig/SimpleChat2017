@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    a:orientation="vertical"
     tools:context="gqqnbig.simplechat.MainActivity">
 
-    <include layout="@layout/content_main" />
+    <android.support.v7.widget.Toolbar
+        a:id="@+id/toolbar"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:background="?attr/colorPrimary"
+        a:elevation="4dp"
+        a:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <TextView
+        a:id="@+id/messageTextView"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:layout_weight="1"/>
+
+    <LinearLayout
+        a:layout_width="match_parent"
 </android.support.design.widget.CoordinatorLayout>
+        <EditText
+            a:id="@+id/editText2"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:layout_weight="1"/>
+
+
+        <Button
+            a:id="@+id/button"
+            a:layout_width="wrap_content"
+            a:layout_height="wrap_content"
+            a:text="Send"/>
+    </LinearLayout>
+</LinearLayout>
