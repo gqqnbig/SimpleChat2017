@@ -79,34 +79,30 @@ public class MainActivity extends AppCompatActivity {
         TextView historyTextView=  (TextView)findViewById(R.id.historyTextView);
         historyTextView.setText(historyTextView.getText() + "\n" + text.toString());
 
+        new GrpcTask().execute(text.toString());
         text.clear();
 
 
-        new GrpcTask().execute();
     }
 
 
-    private class GrpcTask extends AsyncTask<Void, Void, String> {
-        private String mHost;
-        private String mMessage;
-        private int mPort;
+    private class GrpcTask extends AsyncTask<String, Void, String> {
+        private final String mHost = "192.168.0.11";
+        private final int mPort = 50051;
         private ManagedChannel mChannel;
 
         @Override
         protected void onPreExecute() {
-            mHost = "192.168.0.11";
-            mMessage = "Hello World";
-            mPort = 50051;
         }
 
         @Override
-        protected String doInBackground(Void... nothing) {
+        protected String doInBackground(String... messages) {
             try {
                 mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
                         .usePlaintext(true)
                         .build();
                 GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(mChannel);
-                HelloRequest message = HelloRequest.newBuilder().setName(mMessage).build();
+                HelloRequest message = HelloRequest.newBuilder().setName(messages[0]).build();
                 HelloReply reply = stub.sayHello(message);
                 return reply.getMessage();
             } catch (Exception e) {
