@@ -3,6 +3,7 @@ package gqqnbig.simplechat;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
@@ -12,11 +13,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.concurrent.TimeUnit;
+
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.examples.helloworld.GreeterGrpc;
+import io.grpc.examples.helloworld.HelloReply;
+import io.grpc.examples.helloworld.HelloRequest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,6 +80,52 @@ public class MainActivity extends AppCompatActivity {
         historyTextView.setText(historyTextView.getText() + "\n" + text.toString());
 
         text.clear();
+
+
+        new GrpcTask().execute();
+    }
+
+
+    private class GrpcTask extends AsyncTask<Void, Void, String> {
+        private String mHost;
+        private String mMessage;
+        private int mPort;
+        private ManagedChannel mChannel;
+
+        @Override
+        protected void onPreExecute() {
+            mHost = "192.168.0.11";
+            mMessage = "Hello World";
+            mPort = 50051;
+        }
+
+        @Override
+        protected String doInBackground(Void... nothing) {
+            try {
+                mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
+                        .usePlaintext(true)
+                        .build();
+                GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(mChannel);
+                HelloRequest message = HelloRequest.newBuilder().setName(mMessage).build();
+                HelloReply reply = stub.sayHello(message);
+                return reply.getMessage();
+            } catch (Exception e) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                pw.flush();
+                return String.format("Failed... : %n%s", sw);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                mChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
 }
