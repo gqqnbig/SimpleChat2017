@@ -16,6 +16,25 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+
+            android:text="IP address:  " />
+
+        <EditText
+            android:id="@+id/IPTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30px"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/historyTextView"
         android:layout_width="match_parent"

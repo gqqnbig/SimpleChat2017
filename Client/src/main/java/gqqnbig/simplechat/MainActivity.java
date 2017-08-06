@@ -31,7 +31,7 @@ import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
 
 public class MainActivity extends AppCompatActivity {
-
+    private EditText ipText;
     private final int REQUEST_PHONE_STATE = 1;
 
     @Override
@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ipText= (EditText)findViewById(R.id.IPTextBox);
+
+
         setSupportActionBar(toolbar);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
@@ -75,11 +78,12 @@ public class MainActivity extends AppCompatActivity {
     public void OnSendButtonClicked(View v) {
         EditText messageTextBox= (EditText)findViewById(R.id.messageTextBox);
         Editable text= messageTextBox.getText();
+        Editable id_text= ipText.getText();
 
         TextView historyTextView=  (TextView)findViewById(R.id.historyTextView);
         historyTextView.setText(historyTextView.getText() + "\n" + text.toString());
 
-        new GrpcTask().execute(text.toString());
+        new GrpcTask().execute(text.toString(), id_text.toString());
         text.clear();
 
 
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class GrpcTask extends AsyncTask<String, Void, String> {
-        private final String mHost = "192.168.0.11";
+        private final String mHost = ipText.getText().toString();
         private final int mPort = 50051;
         private ManagedChannel mChannel;
 
