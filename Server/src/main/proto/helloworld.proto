@@ -42,8 +42,31 @@ service Greeter {
     rpc SayHello (HelloRequest) returns (HelloReply) {
     }
 }
+service Servers {
 
-// The request message containing the user's name.
+    rpc login (IPtext) returns (IPreturn) {
+    }
+}
+
+service ChatServer {
+    rpc chat (stream ChatMessage) returns (stream ChatFromServer) {
+    }
+}
+
+
+message ChatMessage {
+    string message = 1;
+}
+message ChatFromServer {
+    string message = 1;
+}
+
+message IPtext {
+    string Ipaddress = 1;
+}
+message IPreturn {
+    string return = 1;
+}
 message HelloRequest {
     string name = 1;
 }
@@ -52,3 +75,5 @@ message HelloRequest {
 message HelloReply {
     string message = 1;
 }
+
+

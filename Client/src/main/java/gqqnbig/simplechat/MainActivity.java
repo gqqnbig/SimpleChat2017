@@ -1,37 +1,38 @@
-package gqqnbig.simplechat;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.telephony.TelephonyManager;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+        package gqqnbig.simplechat;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.concurrent.TimeUnit;
+        import android.Manifest;
+        import android.content.Context;
+        import android.content.pm.PackageManager;
+        import android.os.AsyncTask;
+        import android.os.Bundle;
+        import android.support.annotation.NonNull;
+        import android.support.annotation.StringDef;
+        import android.support.v4.app.ActivityCompat;
+        import android.support.v4.content.ContextCompat;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+        import android.telephony.TelephonyManager;
+        import android.text.Editable;
+        import android.text.TextUtils;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.HelloReply;
-import io.grpc.examples.helloworld.HelloRequest;
+        import java.io.PrintWriter;
+        import java.io.StringWriter;
+        import java.util.concurrent.TimeUnit;
+
+        import io.grpc.ManagedChannel;
+        import io.grpc.ManagedChannelBuilder;
+        import io.grpc.examples.helloworld.GreeterGrpc;
+        import io.grpc.examples.helloworld.HelloReply;
+        import io.grpc.examples.helloworld.HelloRequest;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText ipText;
+
     private final int REQUEST_PHONE_STATE = 1;
 
     @Override
@@ -40,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ipText= (EditText)findViewById(R.id.IPTextBox);
-
-
         setSupportActionBar(toolbar);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
@@ -78,12 +76,11 @@ public class MainActivity extends AppCompatActivity {
     public void OnSendButtonClicked(View v) {
         EditText messageTextBox= (EditText)findViewById(R.id.messageTextBox);
         Editable text= messageTextBox.getText();
-        Editable id_text= ipText.getText();
 
         TextView historyTextView=  (TextView)findViewById(R.id.historyTextView);
         historyTextView.setText(historyTextView.getText() + "\n" + text.toString());
 
-        new GrpcTask().execute(text.toString(), id_text.toString());
+        new GrpcTask().execute(text.toString());
         text.clear();
 
 
@@ -91,41 +88,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class GrpcTask extends AsyncTask<String, Void, String> {
-        private final String mHost = ipText.getText().toString();
-        private final int mPort = 50051;
-        private ManagedChannel mChannel;
+            private final String mHost = "172.31.100.52";
+            private final int mPort = 50051;
+            private ManagedChannel mChannel;
 
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected String doInBackground(String... messages) {
-            try {
-                mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
-                        .usePlaintext(true)
-                        .build();
-                GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(mChannel);
-                HelloRequest message = HelloRequest.newBuilder().setName(messages[0]).build();
-                HelloReply reply = stub.sayHello(message);
-                return reply.getMessage();
-            } catch (Exception e) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                e.printStackTrace(pw);
-                pw.flush();
-                return String.format("Failed... : %n%s", sw);
+            @Override
+            protected void onPreExecute() {
             }
-        }
 
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                mChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            @Override
+            protected String doInBackground(String... messages) {
+                try {
+                    mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
+                            .usePlaintext(true)
+                            .build();
+                    GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(mChannel);
+                    HelloRequest message = HelloRequest.newBuilder().setName(messages[0]).build();
+                    HelloReply reply = stub.sayHello(message);
+                    return reply.getMessage();
+                } catch (Exception e) {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    e.printStackTrace(pw);
+                    pw.flush();
+                    return String.format("Failed... : %n%s", sw);
+                }
             }
-        }
+
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    mChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
     }
 
 }
