@@ -48,9 +48,12 @@ service ChatServer {
 }
 message ChatMessage {
     string message = 1;
+    string id = 2;
+    string to = 3;
 }
 message ChatFromServer {
     string message = 1;
+    string From = 2;
 }
 message HelloRequest {
     string name = 1;

@@ -1,38 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:orientation="vertical"
-    tools:context="gqqnbig.simplechat.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="gqqnbig.simplechat.MainActivity"
+    android:background="@drawable/sign_bg">
 
-    <android.support.v7.widget.Toolbar android:id="@+id/toolbar" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:background="?attr/colorPrimary"
-        android:elevation="4dp" android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="328dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="150px"
+            android:layout_marginTop="180px"
+            android:layout_weight="4"
+            android:src="@drawable/logo" />
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginLeft="30px"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="100px"
+            android:layout_marginRight="100px"
+            android:orientation="vertical">
 
-            android:text="IP address:  " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="70px"
+                android:layout_marginLeft="30px"
+                android:text="User ID： "
+                android:textColor="@color/userID"
+                android:textSize="20dp" />
 
-        <EditText android:id="@+id/IPTextBox" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginRight="30px" />
+            <EditText
+                android:id="@+id/IDBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100px"
+                android:layout_marginRight="30px"
+                android:backgroundTint="@color/userID" />
+
+            <Button
+                android:id="@+id/Fbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:background="@drawable/button_draw"
+                android:text="Start my Chat"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView android:id="@+id/historyTextView" android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:layout_weight="1" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-
-        <EditText android:id="@+id/messageTextBox" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_weight="1" />
-
-
-        <Button android:id="@+id/sendButton" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:onClick="OnSendButtonClicked"
-            android:text="Send" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_gravity="bottom">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="30px"
+        android:layout_marginBottom="30px"
+        android:gravity="center"
+        android:text="Develop by Tian Wang, Moon Lam , Kaian Chan\nAug 2017 "
+        android:textColor="@color/userID"
+        android:textSize="10dp" />
+    </RelativeLayout>
 </LinearLayout>

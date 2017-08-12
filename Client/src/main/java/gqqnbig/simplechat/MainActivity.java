@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,41 +88,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     private class GrpcTask extends AsyncTask<String, Void, String> {
-            private final String mHost = "172.31.100.52";
-            private final int mPort = 50051;
-            private ManagedChannel mChannel;
+        private final String mHost = "192.168.0.11";
+        private final int mPort = 50051;
+        private ManagedChannel mChannel;
 
-            @Override
-            protected void onPreExecute() {
-            }
+        @Override
+        protected void onPreExecute() {
+        }
 
-            @Override
-            protected String doInBackground(String... messages) {
-                try {
-                    mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
-                            .usePlaintext(true)
-                            .build();
-                    GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(mChannel);
-                    HelloRequest message = HelloRequest.newBuilder().setName(messages[0]).build();
-                    HelloReply reply = stub.sayHello(message);
-                    return reply.getMessage();
-                } catch (Exception e) {
-                    StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw);
-                    e.printStackTrace(pw);
-                    pw.flush();
-                    return String.format("Failed... : %n%s", sw);
-                }
+        @Override
+        protected String doInBackground(String... messages) {
+            try {
+                mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
+                        .usePlaintext(true)
+                        .build();
+                GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(mChannel);
+                HelloRequest message = HelloRequest.newBuilder().setName(messages[0]).build();
+                HelloReply reply = stub.sayHello(message);
+                return reply.getMessage();
+            } catch (Exception e) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                pw.flush();
+                return String.format("Failed... : %n%s", sw);
             }
+        }
 
-            @Override
-            protected void onPostExecute(String result) {
-                try {
-                    mChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                mChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
+        }
     }
 
 }
