@@ -101,7 +101,7 @@ public class ChatFragment extends Fragment {
         btnSend = getActivity().findViewById(R.id.sendButton);
 
         //set ListView adapter first
-        adapter = new MessageAdapter(getActivity(), R.layout.right_chat_bubble, ChatBubbles);
+        adapter = new MessageAdapter(getActivity(), R.layout.left_chat_bubble, ChatBubbles);
         listView.setAdapter(adapter);
         final Handler handler=new Handler();
         Runnable runnable=new Runnable() {
