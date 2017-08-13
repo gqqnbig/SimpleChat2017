@@ -5,25 +5,23 @@ package gqqnbig.simplechat;
  */
 
 import android.app.Activity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.TextView;
 
-import java.util.List;
+        import java.util.List;
 
 public class MessageAdapter extends ArrayAdapter<ChatBubble> {
 
     private Activity activity;
     private List<ChatBubble> messages;
 
-
     public MessageAdapter(Activity context, int resource, List<ChatBubble> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.messages = objects;
-
     }
 
     @Override
@@ -35,9 +33,11 @@ public class MessageAdapter extends ArrayAdapter<ChatBubble> {
         ChatBubble ChatBubble = getItem(position);
         int viewType = getItemViewType(position);
 
-
-            layoutResource =ChatBubble.notMyMessage();
-
+        if (ChatBubble.myMessage()) {
+            layoutResource = R.layout.left_chat_bubble;
+        } else {
+            layoutResource = R.layout.right_chat_bubble;
+        }
 
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -63,7 +63,7 @@ public class MessageAdapter extends ArrayAdapter<ChatBubble> {
     @Override
     public int getItemViewType(int position) {
         // return a value between 0 and (getViewTypeCount - 1)
-        return position % 2;
+        return -1;
     }
 
     private class ViewHolder {

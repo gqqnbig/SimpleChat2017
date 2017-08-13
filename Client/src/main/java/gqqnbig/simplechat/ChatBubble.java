@@ -7,18 +7,18 @@ package gqqnbig.simplechat;
 public class ChatBubble {
 
     private String content;
-    private int side;
+    private boolean myMessage;
 
-    public ChatBubble(String content, int notMyMessage) {
+    public ChatBubble(String content, boolean myMessage) {
         this.content = content;
-        this.side = notMyMessage;
+        this.myMessage = myMessage;
     }
 
     public String getContent() {
         return content;
     }
 
-    public int notMyMessage() {
-        return side;
+    public boolean myMessage() {
+        return myMessage;
     }
 }
