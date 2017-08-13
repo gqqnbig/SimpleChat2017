@@ -33,8 +33,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final EditText et = (EditText) getActivity().findViewById(R.id.IDBox);
-        Button btn = (Button) getActivity().findViewById(R.id.Fbtn);
+        final EditText et = (EditText) getActivity().findViewById(R.id.IPTextBox);
+        Button btn = (Button) getActivity().findViewById(R.id.button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

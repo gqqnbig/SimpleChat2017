@@ -13,13 +13,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.ManagedChannel;
@@ -43,12 +48,17 @@ public class ChatFragment extends Fragment {
     private StreamObserver<ChatMessage> server;
     private ManagedChannel channel;
     private LinearLayout layout,layout1;
-    private String message = "",check = "",user;
+    private String message,check,user;
+    private ListView listView;
+    private View btnSend;
+    private List<ChatBubble> ChatBubbles;
+    private ArrayAdapter<ChatBubble> adapter;
+    private boolean myMessage = true;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.talk_app2,null);
+        message = check = "";
+        View view = inflater.inflate(R.layout.talk_app,null);
 
         return view;
     }
@@ -57,34 +67,46 @@ public class ChatFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         btn = (Button) getActivity().findViewById(R.id.sendButton);
-        //view1 = (TextView) getActivity().findViewById(R.id.layout);
-        //view2 = (TextView) getActivity().findViewById(R.id.layout1);
+
         layout = (LinearLayout) getActivity().findViewById(R.id.layout);
-        //layout1 = (LinearLayout) getActivity().findViewById(R.id.layout1);
+
         Test test = (Test) getActivity();
         user = test.userID;
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                server.onNext(ChatMessage.newBuilder().setMessage(et.getText().toString()).setId(user).setTo(ipet.getText().toString()).build());
-                TextView tv = new TextView(getActivity());
-                tv.setText(et.getText());
-                tv.setGravity(Gravity.RIGHT);
-                layout.addView(tv);
-                et.getText().clear();
+
+                if (et.getText().toString().trim().equals("")) {
+                    Toast.makeText(getActivity(), "Please input some text...", Toast.LENGTH_SHORT).show();
+                } else {
+                    server.onNext(ChatMessage.newBuilder().setMessage(et.getText().toString()).setId(user).setTo(ipet.getText().toString()).build());
+                    myMessage = false;
+                    ChatBubbles.add(new ChatBubble(et.getText().toString(),myMessage));
+                    adapter.notifyDataSetChanged();
+                    et.getText().clear();
+
+
+                }
             }
         });
         et = (EditText) getActivity().findViewById(R.id.messageTextBox);
         ipet = (EditText) getActivity().findViewById(R.id.IPTextBox);
+        ChatBubbles = new ArrayList<>();
+
+        listView = (ListView) getActivity().findViewById(R.id.list_msg);
+        btnSend = getActivity().findViewById(R.id.sendButton);
+
+        //set ListView adapter first
+        adapter = new MessageAdapter(getActivity(), R.layout.right_chat_bubble, ChatBubbles);
+        listView.setAdapter(adapter);
         final Handler handler=new Handler();
         Runnable runnable=new Runnable() {
             @Override
             public void run() {
                 if (message!=check){
-                    TextView tv = new TextView(getActivity());
-                    tv.setText(message);
-
-                    layout.addView(tv);
+                    myMessage = true;
+                    ChatBubbles.add(new ChatBubble(message,myMessage));
+                    adapter.notifyDataSetChanged();
                     check = message;
                 }
                 handler.postDelayed(this, 200);
