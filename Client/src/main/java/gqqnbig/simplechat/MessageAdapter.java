@@ -35,11 +35,9 @@ public class MessageAdapter extends ArrayAdapter<ChatBubble> {
         ChatBubble ChatBubble = getItem(position);
         int viewType = getItemViewType(position);
 
-        if (ChatBubble.notMyMessage()) {
-            layoutResource = R.layout.left_chat_bubble;
-        } else {
-            layoutResource = R.layout.right_chat_bubble;
-        }
+
+            layoutResource =ChatBubble.notMyMessage();
+
 
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();

@@ -37,6 +37,9 @@ import io.grpc.examples.helloworld.HelloReply;
 import io.grpc.examples.helloworld.HelloRequest;
 import io.grpc.stub.StreamObserver;
 
+import static gqqnbig.simplechat.R.layout.left_chat_bubble;
+import static gqqnbig.simplechat.R.layout.right_chat_bubble;
+
 /**
  * Created by Tan on 2017/8/11.
  */
@@ -69,6 +72,9 @@ public class ChatFragment extends Fragment {
         btn = (Button) getActivity().findViewById(R.id.sendButton);
 
         layout = (LinearLayout) getActivity().findViewById(R.id.layout);
+        et = (EditText) getActivity().findViewById(R.id.messageTextBox);
+        ipet = (EditText) getActivity().findViewById(R.id.IPTextBox);
+        ChatBubbles = new ArrayList<>();
 
         Test test = (Test) getActivity();
         user = test.userID;
@@ -81,7 +87,7 @@ public class ChatFragment extends Fragment {
                 } else {
                     server.onNext(ChatMessage.newBuilder().setMessage(et.getText().toString()).setId(user).setTo(ipet.getText().toString()).build());
                     myMessage = false;
-                    ChatBubbles.add(new ChatBubble(et.getText().toString(),myMessage));
+                    ChatBubbles.add(new ChatBubble(et.getText().toString(),right_chat_bubble));
                     adapter.notifyDataSetChanged();
                     et.getText().clear();
 
@@ -89,9 +95,7 @@ public class ChatFragment extends Fragment {
                 }
             }
         });
-        et = (EditText) getActivity().findViewById(R.id.messageTextBox);
-        ipet = (EditText) getActivity().findViewById(R.id.IPTextBox);
-        ChatBubbles = new ArrayList<>();
+
 
         listView = (ListView) getActivity().findViewById(R.id.list_msg);
         btnSend = getActivity().findViewById(R.id.sendButton);
@@ -105,7 +109,7 @@ public class ChatFragment extends Fragment {
             public void run() {
                 if (message!=check){
                     myMessage = true;
-                    ChatBubbles.add(new ChatBubble(message,myMessage));
+                    ChatBubbles.add(new ChatBubble(message,left_chat_bubble));
                     adapter.notifyDataSetChanged();
                     check = message;
                 }
