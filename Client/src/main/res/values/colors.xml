@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="userID">#002060</color>
+    <color name="sign_button">#0070c0</color>
+    <color name="out_button">#0070c0</color>
+    <color name="bar_color">#ffc000</color>
 </resources>
