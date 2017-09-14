@@ -10,7 +10,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:2.2.3' //2.2.3是支持API level 23的最高版本。2.3.0支持API level 24。
         classpath "com.google.protobuf:protobuf-gradle-plugin:0.8.1"
 
         // NOTE: Do not place your application dependencies here; they belong
