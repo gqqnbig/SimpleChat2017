@@ -3,7 +3,6 @@ package gqqnbig.simplechat;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -39,7 +38,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!et.getText().toString().equals("")){
-                Test test = (Test)getActivity();
+                    SimpleChat test = (SimpleChat) getActivity();
                 test.userID = et.getText().toString();
                 FragmentManager manager = getActivity().getFragmentManager();
                 manager.beginTransaction().replace(R.id.framelayout, new ChatFragment()).commit();

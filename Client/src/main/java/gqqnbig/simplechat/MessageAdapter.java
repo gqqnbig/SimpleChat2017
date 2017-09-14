@@ -1,9 +1,5 @@
 package gqqnbig.simplechat;
 
-/**
- * Created by CHOUUT on 12/8/2017.
- */
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;

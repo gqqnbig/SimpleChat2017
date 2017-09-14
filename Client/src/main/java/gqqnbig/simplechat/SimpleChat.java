@@ -7,15 +7,12 @@ import android.support.annotation.Nullable;
 
 
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 /**
  * Created by Tan on 2017/8/11.
  */
 
-public class Test extends AppCompatActivity {
+public class SimpleChat extends AppCompatActivity {
     String userID = "";
 
     @Override
